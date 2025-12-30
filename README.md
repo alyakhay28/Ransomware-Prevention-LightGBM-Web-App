@@ -33,9 +33,9 @@ The project follows an Agile development methodology:
 * Frontend: HTML/CSS (Bootstrap 5)
 * Model Serialization: joblib
 
-**Installation and Setup
+**Installation and Setup**
 
-Prerequisites**
+**Prerequisites**
 
 1. Python 3.x
 2. pip (Python package installer)
@@ -77,9 +77,9 @@ The application will start locally, typically accessible at [http://127.0.0.1:50
    * Green Alert: File is benign (prediction = 1)
    * Red Alert: File is malicious/ransomware (prediction = 0)
 
-**Model Training and Data
+**Model Training and Data**
 
-Dataset**
+**Dataset**
 
 * Source: Kaggle PE Header ransomware dataset (~2,157 samples)
 * Labeling: Binary classification – Benign = 1, Malicious = 0
@@ -89,9 +89,9 @@ Dataset**
 
 The feature_extractor.py script ensures that features extracted at runtime match the type and order used during training, guaranteeing accurate inference. Only static PE attributes are used for speed and low resource usage.
 
-**Core Components
-**
-app.py (Flask Backend)
+**Core Components**
+
+**app.py (Flask Backend)**
 
 * / (GET): Renders index.html frontend
 * /predict (POST):
@@ -114,7 +114,7 @@ Provides the file upload UI and displays prediction results:
 * Benign: Safe
 * Malicious: Likely ransomware
 
-Notes
+**Notes**
 
 * Developed as a final-year undergraduate thesis project
 * Focused on practical application of lightweight machine learning in cybersecurity
