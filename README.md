@@ -1,12 +1,12 @@
-Lightweight Ransomware Prevention Web-Based App Using LightGBM
+**Lightweight Ransomware Prevention Web-Based App Using LightGBM
 
-Project Overview
+Project Overview**
 
 This project implements a lightweight, web-based application designed for static analysis and detection of ransomware using a LightGBM machine learning model. The main goal is to provide an accessible, low-resource defense mechanism for small and medium-sized enterprises (SMEs) and individual users who may lack high-spec hardware or advanced cybersecurity expertise.
 
 The application performs static analysis of Portable Executable (PE) files (like .exe or .dll) by extracting header features and uses a pre-trained LightGBM model to quickly determine if the file is likely benign or malicious (ransomware).
 
-Key Features
+**Key Features**
 
 * Lightweight Design: Optimized for low-spec hardware (CPU-only, ≤4GB RAM).
 * Static Analysis: Analyzes PE headers without executing the file, ensuring fast and safe scanning.
@@ -14,7 +14,7 @@ Key Features
 * High Efficiency: Uses LightGBM for fast predictions (<10 ms per file).
 * Privacy Focused: Files are not stored after scanning (session-based processing).
 
-Methodology
+**Methodology**
 
 The project follows an Agile development methodology:
 
@@ -25,7 +25,7 @@ The project follows an Agile development methodology:
 5. Deploy
 6. Review
 
-Technology Stack
+**Technology Stack**
 
 * Backend Framework: Python (Flask)
 * Machine Learning: LightGBM (Gradient Boosting Framework)
@@ -33,15 +33,15 @@ Technology Stack
 * Frontend: HTML/CSS (Bootstrap 5)
 * Model Serialization: joblib
 
-Installation and Setup
+**Installation and Setup
 
-Prerequisites
+Prerequisites**
 
 1. Python 3.x
 2. pip (Python package installer)
 3. Virtual environment (recommended)
 
-Steps
+**Steps**
 
 1. Clone the repository:
    git clone [YOUR_REPO_URL]
@@ -67,7 +67,7 @@ Steps
 
 The application will start locally, typically accessible at [http://127.0.0.1:5000](http://127.0.0.1:5000)
 
-Usage
+**Usage**
 
 1. Open your browser and navigate to [http://127.0.0.1:5000](http://127.0.0.1:5000)
 2. Upload a Portable Executable (.exe, .dll) file using the form
@@ -77,20 +77,20 @@ Usage
    * Green Alert: File is benign (prediction = 1)
    * Red Alert: File is malicious/ransomware (prediction = 0)
 
-Model Training and Data
+**Model Training and Data
 
-Dataset
+Dataset**
 
 * Source: Kaggle PE Header ransomware dataset (~2,157 samples)
 * Labeling: Binary classification – Benign = 1, Malicious = 0
 * Features: Static PE header fields (e.g., Machine, ExportSize, ResourceSize, NumberOfSections, DllCharacteristics, etc.)
 
-Feature Extraction Consistency
+**Feature Extraction Consistency**
 
 The feature_extractor.py script ensures that features extracted at runtime match the type and order used during training, guaranteeing accurate inference. Only static PE attributes are used for speed and low resource usage.
 
-Core Components
-
+**Core Components
+**
 app.py (Flask Backend)
 
 * / (GET): Renders index.html frontend
@@ -103,16 +103,16 @@ app.py (Flask Backend)
   * Performs prediction using the LightGBM model
   * Returns JSON response to frontend
 
-feature_extractor.py
+**feature_extractor.py**
 
 Uses the pefile library to statically read an executable and generate a feature vector for the LightGBM model.
 
-templates/index.html (Bootstrap Frontend)
+**templates/index.html (Bootstrap Frontend)**
 
 Provides the file upload UI and displays prediction results:
 
-* Green: Safe
-* Red: Malicious
+* Benign: Safe
+* Malicious: Likely ransomware
 
 Notes
 
