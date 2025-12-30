@@ -1,6 +1,6 @@
-**Lightweight Ransomware Prevention Web-Based App Using LightGBM
+**Lightweight Ransomware Prevention Web-Based App Using LightGBM**
 
-Project Overview**
+**Project Overview**
 
 This project implements a lightweight, web-based application designed for static analysis and detection of ransomware using a LightGBM machine learning model. The main goal is to provide an accessible, low-resource defense mechanism for small and medium-sized enterprises (SMEs) and individual users who may lack high-spec hardware or advanced cybersecurity expertise.
 
