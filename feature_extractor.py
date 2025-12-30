@@ -14,6 +14,7 @@ def extract_features(filepath):
     try:
         pe = pefile.PE(filepath)
     except:
+        # If invalid PE file, return zeros for all features
         return {k: 0 for k in [
             'Machine','DebugSize','DebugRVA','MajorImageVersion','MajorOSVersion',
             'ExportRVA','ExportSize','IatVRA','MajorLinkerVersion','MinorLinkerVersion',
@@ -38,7 +39,7 @@ def extract_features(filepath):
         'SizeOfStackReserve': getattr(oh, 'SizeOfStackReserve', 0),
         'DllCharacteristics': getattr(oh, 'DllCharacteristics', 0),
         'ResourceSize': get_resource_size(getattr(pe, 'DIRECTORY_ENTRY_RESOURCE', [])),
-        'BitcoinAddresses': 0
+        'BitcoinAddresses': 0  # placeholder
     }
 
     return features
