@@ -1,141 +1,154 @@
-Lightweight Ransomware Prevention Web-Based App Using LightGBM
 
-Project Overview
 
-This project implements a lightweight, web-based application designed for static analysis and detection of ransomware using a machine learning model, LightGBM. The primary goal is to provide an accessible, low-resource defense mechanism for Small and Medium-sized Enterprises (SMEs) and individual users who may lack high-spec hardware or extensive cybersecurity expertise.
+````markdown
+# Lightweight Ransomware Prevention Web-Based App Using LightGBM
 
-The application performs static analysis of Portable Executable (PE) files (like .exe or .dll files) by extracting header features. It then uses a pre-trained LightGBM classification model to quickly determine if the file is likely benign or malicious (ransomware).
+## Project Overview
 
-Key Features
+This project implements a lightweight, web-based application designed for **static analysis and detection of ransomware** using a **LightGBM** machine learning model. The main goal is to provide an **accessible, low-resource defense mechanism** for small and medium-sized enterprises (SMEs) and individual users who may lack high-spec hardware or advanced cybersecurity expertise.
 
-- Lightweight Design: Optimized for low-spec hardware (CPU-only, ≤4GB RAM requirement).
+The application performs **static analysis of Portable Executable (PE) files** (like `.exe` or `.dll`) by extracting header features and uses a **pre-trained LightGBM model** to quickly determine if the file is likely benign or malicious (ransomware).
 
-- Static Analysis: Analyzes PE headers without executing the file, ensuring fast and safe scanning.
+---
 
-- Web-Based Interface: Simple, non-technical user interface (UI) built with Bootstrap for easy file upload and clear, color-coded results.
+## Key Features
 
-- High Efficiency: Utilizes LightGBM for fast prediction times (target: <10 ms).
+- **Lightweight Design**: Optimized for low-spec hardware (CPU-only, ≤4GB RAM).
+- **Static Analysis**: Analyzes PE headers without executing the file, ensuring fast and safe scanning.
+- **Web-Based Interface**: Simple UI built with **Bootstrap** for easy file upload and clear, color-coded results.
+- **High Efficiency**: Uses LightGBM for fast predictions (<10 ms per file).
+- **Privacy Focused**: Files are not stored after scanning (session-based processing).
 
-- Privacy Focused: No file storage after scanning (session-based processing).
+---
 
-Methodology
+## Methodology
 
-The project followed an Agile Methodology (Plan, Design, Develop, Test, Deploy, Review).
+The project follows an **Agile development methodology**:
 
-Technology Stack
+1. Plan  
+2. Design  
+3. Develop  
+4. Test  
+5. Deploy  
+6. Review  
 
-- Backend Framework: Python (Flask)
+---
 
-- Machine Learning: LightGBM (Gradient Boosting Framework)
+## Technology Stack
 
-- Feature Extraction: pefile library (for static PE header analysis)
+- **Backend Framework**: Python (Flask)  
+- **Machine Learning**: LightGBM (Gradient Boosting Framework)  
+- **Feature Extraction**: `pefile` library (static PE header analysis)  
+- **Frontend**: HTML/CSS (Bootstrap 5)  
+- **Model Serialization**: `joblib`  
 
-- Frontend: HTML/CSS (Bootstrap 5)
+---
 
-- Serialization: joblib (for model persistence)
+## Installation and Setup
 
-Installation and Setup
+### Prerequisites
 
-Prerequisites
+1. Python 3.x  
+2. pip (Python package installer)  
+3. Virtual environment (recommended)  
 
-1. Python 3.x
+### Steps
 
-2. pip (Python package installer)
+1. **Clone the repository**:
 
-3. Virtual environment (recommended)
-
-Steps
-
-1. Clone the Repository:
-
+```bash
 git clone [YOUR_REPO_URL]
 cd ransomwareDetector
+````
 
-1. Create and Activate Virtual Environment:
+2. **Create and activate a virtual environment**:
 
+```bash
 python3 -m venv venv
-source venv/bin/activate  # On Linux/macOS
-# venv\Scripts\activate   # On Windows
+source venv/bin/activate  # Linux/macOS
+# venv\Scripts\activate   # Windows
+```
 
-1. Install Dependencies:
+3. **Install dependencies**:
 
+```bash
 pip install flask lightgbm pandas joblib pefile
+```
 
-1. Model and Feature Files:
-Ensure the following files are present in your project directory:
+4. **Ensure the following files are present in your project directory**:
 
-- model.joblib (or lightgbm_model.txt if using LightGBM's native save format): The trained classification model.
+* `model.joblib` (or `lightgbm_model.txt` if using LightGBM's native save format) – The trained classification model
+* `app.py` – The Flask application script
+* `feature_extractor.py` – Script containing `extract_features` function
+* `templates/index.html` – Bootstrap frontend file
 
-- app.py: The Flask application script.
+5. **Run the Flask application**:
 
-- feature_extractor.py: The script containing the extract_features function.
-
-- templates/index.html: The Bootstrap frontend file.
-
-1. Run the Flask Application:
-
+```bash
 python3 app.py
+```
 
-The application will start running locally, typically accessible at http://127.0.0.1:5000.
+The application will start locally, typically accessible at: `http://127.0.0.1:5000`
 
-Usage
+---
 
-1. Open your web browser and navigate to http://127.0.0.1:5000.
+## Usage
 
-2. Use the file upload form (Bootstrap UI) to select a Portable Executable (.exe, .dll) file.
+1. Open your browser and navigate to `http://127.0.0.1:5000`
+2. Upload a **Portable Executable (.exe, .dll)** file using the form
+3. Click **Scan File**
+4. View results:
 
-3. Click "Scan File."
+* **Green Alert**: File is benign (prediction = 1)
+* **Red Alert**: File is malicious/ransomware (prediction = 0)
 
-4. The system will extract the PE header features, pass them to the LightGBM model, and display the result:
+---
 
-- Green Alert: File is benign (prediction = 1).
+## Model Training and Data
 
-- Red Alert: File is malicious/ransomware (prediction = 0).
+### Dataset
 
-Model Training and Data
+* **Source**: Kaggle PE Header ransomware dataset (~2,157 samples)
+* **Labeling**: Binary classification – Benign = 1, Malicious = 0
+* **Features**: Static PE header fields (e.g., `Machine`, `ExportSize`, `ResourceSize`, `NumberOfSections`, `DllCharacteristics`, etc.)
 
-Dataset
+### Feature Extraction Consistency
 
-The model was trained offline using the Kaggle PE Header ransomware dataset (~2,157 samples).
+The `feature_extractor.py` script ensures that **features extracted at runtime match the type and order used during training**, guaranteeing accurate inference. Only static PE attributes are used for **speed and low resource usage**.
 
-- Labeling: Binary classification where Benign = 1 and Malicious = 0.
+---
 
-- Features: Static PE header fields (e.g., Machine, ExportSize, ResourceSize, NumberOfSections, DllCharacteristics, etc.).
+## Core Components
 
-Feature Extraction Consistency
+### `app.py` (Flask Backend)
 
-A critical component is the feature_extractor.py script, which ensures that the features extracted from a file at runtime are exactly the same type and order as those used during the original training process. This guarantees accurate inference by the LightGBM model.
+* **/** (GET): Renders `index.html` frontend
+* **/predict** (POST):
 
-The features used are strictly static PE attributes, avoiding complex metrics like entropy calculation or import table analysis for speed and resource efficiency.
+  * Handles file upload
+  * Temporarily saves the file
+  * Calls `feature_extractor.extract_features()`
+  * Loads `model.joblib` once at startup
+  * Performs prediction using the LightGBM model
+  * Returns JSON response to frontend
 
-Core Components
+### `feature_extractor.py`
 
-app.py (Flask Backend)
+Uses the `pefile` library to **statically read an executable** and generate a feature vector for the LightGBM model.
 
-This file manages the web server and API endpoints:
+### `templates/index.html` (Bootstrap Frontend)
 
-- / (GET): Renders the index.html frontend template.
+Provides the **file upload UI** and displays prediction results:
 
-- /predict (POST):
+* **Benign**: Safe
+* **Malicious**: Likely ransomware
 
-- Handles file upload.
+---
 
-- Saves the uploaded file temporarily.
+## Notes
 
-- Calls feature_extractor.extract_features() on the saved file.
+* Designed as a **final-year undergraduate thesis project**
+* Focused on the **practical application of lightweight machine learning in cybersecurity**
+* Optimized for **speed, low resource usage, and privacy**
 
-- Loads the model.joblib once at startup.
-
-- Performs prediction using the LightGBM model.
-
-- Returns the result as a JSON response to the frontend.
-
-feature_extractor.py
-
-This module uses the pefile library to statically read an executable file and generate the required feature vector for the LightGBM model.
-
-templates/index.html (Bootstrap Frontend)
-
-Provides the user interface for file upload and displays the prediction result clearly (Green for safe, Red for malicious).
-
-This project was developed as a final-year undergraduate thesis, focusing on the practical application of lightweight machine learning in cybersecurity.
+---
