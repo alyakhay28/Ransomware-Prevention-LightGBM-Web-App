@@ -1,51 +1,77 @@
 
-### **1. Project Title & Description**
+
+---
 
 ```markdown
 # Ransomware Prevention LightGBM Web App
 
-This web app detects ransomware in Windows PE files using LightGBM.  
-Users can upload files, see prediction results, probability trends, and detailed feature analysis.
-```
+A lightweight web application for detecting ransomware in PE files using LightGBM.  
+The app allows batch file scanning, displays prediction results with probability, and visualizes data in interactive dashboards using Bootstrap and Chart.js.
 
 ---
 
-### **2. Folder Structure (explained)**
+## 1. Project Overview
 
-```markdown
-## Folder Structure
-
-- `backend/` → Flask app & model training scripts (`app.py`, `feature_extractor.py`, `train_model.py`)  
-- `data/` → CSV datasets and sample files for testing/training  
-- `models/` → Trained LightGBM model (`model.joblib`)  
-- `outputs/` → Prediction outputs from batch scans  
-- `templates/` → HTML templates for Flask (`index.html`, `results.html`, `features.html`)  
-- `static/` → Static files (CSS, JS, images)  
-- `experiments/` → Data preprocessing, feature alignment, and experiment scripts  
-- `test_files/` → Example PE files for testing  
-- `venv/` → Python virtual environment (excluded in GitHub `.gitignore`)
-```
+- **Frontend:** Bootstrap 5 + HTML templates  
+- **Backend:** Flask + Python  
+- **ML Model:** LightGBM (primary), optional comparison with XGBoost or other models  
+- **Data Handling:** PE file feature extraction using `pefile`  
+- **Visualization:** Interactive charts for prediction distribution, probability trends, and detailed file features
 
 ---
 
-### **3. Prerequisites**
+## 2. Folder Structure
 
-```markdown
-## Prerequisites
+```
 
-- Python 3.9+  
-- Virtual environment (venv)  
+ransomwareDetector/
+├── backend/
+│   ├── app.py                # Flask web app
+│   ├── feature_extractor.py  # Extract features from PE files
+│   └── train_model.py        # Model training & evaluation
+├── data/
+│   ├── data_file.csv         # Original dataset
+│   ├── sampled_2000_aligned.csv
+│   └── samples/              # Raw sample files
+├── experiments/
+│   ├── align_and_predict.py
+│   ├── batch_scan.py
+│   ├── check_dataset_features.py
+│   ├── find_label_candidates.py
+│   ├── sample_2000.py
+│   ├── sampled_2000.csv
+│   └── sampled_2000_numeric.csv
+├── models/
+│   └── model.joblib          # Trained LightGBM model
+├── outputs/
+│   ├── predictions.csv
+│   └── predictions (Copy).csv
+├── static/                   # CSS, JS, images
+├── templates/
+│   ├── index.html
+│   ├── results.html
+│   └── features.html
+├── test_files/               # Optional test files
+├── venv/                     # Python virtual environment
+├── README.md
+└── requirements.txt
+
+````
+
+---
+
+## 3. Prerequisites
+
+- Python 3.10+  
+- Virtual environment (`venv`)  
 - Git  
-```
 
 ---
 
-### **4. Setup & Install Dependencies**
+## 4. Setup Instructions (New VM)
 
-````markdown
-## Setup
+1. Clone the repository:
 
-1. Clone the repo:
 ```bash
 git clone https://github.com/alyakhay28/Ransomware-Prevention-LightGBM-Web-App.git
 cd Ransomware-Prevention-LightGBM-Web-App
@@ -55,49 +81,87 @@ cd Ransomware-Prevention-LightGBM-Web-App
 
 ```bash
 python3 -m venv venv
-source venv/bin/activate   # Linux / macOS
-venv\Scripts\activate      # Windows
+source venv/bin/activate     # Linux/macOS
+# venv\Scripts\activate      # Windows
 ```
 
-3. Install Python dependencies:
+3. Install required packages:
 
 ```bash
 pip install -r requirements.txt
 ```
 
-````
+4. Launch the web app:
 
----
-
-### **5. Running the App**
-
-```markdown
-## Run the Web App
-
-1. Start Flask server:
 ```bash
 cd backend
 python app.py
-````
+```
 
-2. Open browser at `http://127.0.0.1:5000`
-3. Upload PE files and see scan results with charts and detailed feature tables.
-
-````
+5. Open a browser at `http://127.0.0.1:5000/` to use the app.
 
 ---
 
-### **6. Notes / Optional Info**
+## 5. Using the Web App
 
-```markdown
-## Notes
+* **Upload PE files** through the homepage.
+* **View results** in the dashboard:
 
-- The trained model is in `models/model.joblib`.  
-- Any batch predictions are stored in `outputs/`.  
-- Frontend uses Bootstrap 5 and Chart.js for visualizations.  
-- The repo is tested on Ubuntu VM; minor adjustments may be needed for Windows.
-````
+  * Bar chart: classification per file
+  * Pie chart: benign vs malicious distribution
+  * Line chart: prediction probability trend
+* **Detailed features** can be inspected per file.
 
 ---
 
+## 6. Experiments & Model Comparison
+
+### Folder
+
+* `experiments/` → scripts for testing, data preprocessing, feature alignment, and predictions
+
+### Running Experiments
+
+1. Activate virtual environment:
+
+```bash
+source venv/bin/activate   # Linux/macOS
+# venv\Scripts\activate    # Windows
+```
+
+2. Navigate to experiments folder:
+
+```bash
+cd experiments
+```
+
+3. Run a script (example):
+
+```bash
+python align_and_predict.py
+```
+
+4. Output files will be saved in:
+
+* `outputs/` → predictions
+* `data/` → processed datasets
+
+---
+
+### Adding and Comparing New Models
+
+1. Train a new model in `backend/train_model.py`
+2. Save the trained model in `models/` (e.g., `xgboost_model.joblib`)
+3. Update `backend/app.py` to include the new model for predictions
+4. Compare models using metrics like accuracy, F1-score, and prediction time
+
+---
+
+## 7. Notes
+
+* `__pycache__/` and `venv/` are ignored in `.gitignore`
+* For lightweight testing, ensure files in `test_files/` are small to avoid high RAM usage
+* Use `pip freeze > requirements.txt` to update dependencies when adding new packages
+
+---
 
